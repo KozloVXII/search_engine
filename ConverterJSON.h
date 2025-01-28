@@ -5,9 +5,7 @@
 #include <vector>
 #include  <string>
 #include  <nlohmann/json.hpp>
-
-
-
+#include "SearchServer.h"
 //Класс для работы с JSON-файлами
 class ConverterJSON {
 public:
@@ -19,7 +17,7 @@ int GetResponsesLimit();
 
 std::vector<std::string> GetRequests();
 
-void putAnswers(std::vector<std::vector<std::pair<int, float>>>  answers){};
+void putAnswers(std::vector<std::vector<RelativeIndex>>  answers);
 };
 
 

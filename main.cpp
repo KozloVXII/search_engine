@@ -1,17 +1,25 @@
-// #include <iostream>
-// #include <fstream>
+#include <conio.h>
+#include <gtest/gtest.h>
+
 #include "ConverterJSON.h"
-// #include <nlohmann/json.hpp>
-
-#include "gtest/gtest.h"
-TEST(ConverterJSON, GetTextDocuments)
-{
-    EXPECT_EQ(1, 1);
-}
 
 
-int main(){
+ TEST(ConverterJSON, GetTextDocuments) {
+     EXPECT_EQ(1, 1);
+ }
+
+extern std::vector<std::string> listRequests;
+extern int maxResponses;
+int main(int argc, char **argv){
+
+     ::testing::InitGoogleTest(&argc, argv);
+
     ConverterJSON converter;
+    InvertedIndex invertedIndex;
+
+    auto fileAnswers = new std::ofstream("answers.json",std::ios_base::trunc | std::ios_base::out);
+    delete fileAnswers;
+
     std::string versionEngine = "0.1.001";
     nlohmann::json jsonConfig;
     std::ifstream configFile("config.json", std::ios::in);
@@ -31,34 +39,19 @@ int main(){
     catch (const char* errorMessage)
     {
         std::cerr << errorMessage << std::endl;
-        system("pause");
         exit(-1);
     }
 
-    std::cout <<"Starting: " << jsonConfig["config"]["name"] <<std::endl;
     unsigned int updatePeriodMs =  jsonConfig["config"]["update_period_ms"];
-    std::cout <<updatePeriodMs <<std::endl;
-
-
 
     std::vector<std::string> textFiles = converter.GetTextDocuments();
-    for(auto it = textFiles.begin(); it!=textFiles.end(); ++it) {
-        std::cout<<*it<<std::endl;
-    }
+    maxResponses = converter.GetResponsesLimit();
+    listRequests = converter.GetRequests();
+    invertedIndex.UpdateDocumentBase(textFiles);
+    SearchServer searchServer(invertedIndex);
+    auto listAnswers = searchServer.search(listRequests);
+    converter.putAnswers(listAnswers);
 
-
-    int maxResponses = converter.GetResponsesLimit();
-    std::cout <<"maxResponses = " <<maxResponses <<std::endl;
-
-    std::vector<std::string> listRequests = converter.GetRequests();
-    for(auto it = listRequests.begin(); it!=listRequests.end(); ++it) {
-        std::cout<<*it<<std::endl;
-    }
-
-
-
-
-    system("pause");
-    return 0;
+    return RUN_ALL_TESTS();
 }
 
