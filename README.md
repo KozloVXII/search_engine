@@ -1,3 +1,10 @@
+--onli 	- disables cyclic request processing
+--gtest - enable the unit testing function 
+
+
+
+
+
 Test Selection:
   --gtest_list_tests
       List the names of all tests instead of running them. The name of

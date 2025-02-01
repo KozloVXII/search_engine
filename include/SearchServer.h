@@ -21,17 +21,17 @@ InvertedIndex,
 * чтобы SearchServer мог узнать частоту слов встречаемых в
 запросе
 */
-SearchServer(InvertedIndex& inIndex) : index(inIndex){};
+    SearchServer(InvertedIndex& inIndex) : index(inIndex){};
 /**
 * Метод обработки поисковых запросов
-* @param queries_input поисковые запросы взятые из файла
+* @param queriesInput поисковые запросы взятые из файла
 requests.json
 * @return возвращает отсортированный список релевантных ответов для
 заданных запросов
 */
-std::vector<std::vector<RelativeIndex>> search(const std::vector<std::string>& queriesInput);
+    std::vector<std::vector<RelativeIndex>> search(const std::vector<std::string>& queriesInput);
 private:
-InvertedIndex index;
+    InvertedIndex index;
 };
 
 #endif // SEARCHSERVER_H
