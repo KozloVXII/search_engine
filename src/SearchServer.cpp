@@ -18,7 +18,7 @@ std::vector<std::vector<RelativeIndex>>
     while(itQueries != queriesInput.end()){
         std::string strQueries = *itQueries;
         std::vector<std::string> listWords;
-        size_t pos{0}, posNew{0}, wordLength{0};
+        size_t pos{0}, posNew{0};
         while(pos<itQueries->size()){
             std::string word;
             posNew = itQueries->find(' ',pos);
@@ -33,25 +33,24 @@ std::vector<std::vector<RelativeIndex>>
             if(posNew<std::string::npos) ++pos;
           }
         std::map <int, size_t> mapCount;
-        for(auto itListWords = listWords.begin(); itListWords!=listWords.end(); ++itListWords){
-            auto listEntry = index.GetWordCount(*itListWords);
-            for(auto itListEntry = listEntry.begin(); itListEntry!=listEntry.end(); ++itListEntry){
-                auto itMapCount = mapCount.find(itListEntry->docId);
-                if(itMapCount != mapCount.end()){
-                  itMapCount->second +=itListEntry->count;
+        for(auto & listWord : listWords){
+            auto listEntry = index.GetWordCount(listWord);
+            for(auto & itListEntry : listEntry){
+                if(auto itMapCount = mapCount.find(itListEntry.docId); itMapCount != mapCount.end()){
+                  itMapCount->second +=itListEntry.count;
                 }else{
-                    mapCount.insert(std::pair<int, size_t>(itListEntry->docId,itListEntry->count));
+                    mapCount.insert(std::pair<int, size_t>(itListEntry.docId,itListEntry.count));
                 }
             }
         }
         size_t  maxAbsRelev = 0;
-        for(auto itMapCount = mapCount.begin(); itMapCount!=mapCount.end(); ++itMapCount){
-            if(itMapCount->second > maxAbsRelev) maxAbsRelev = itMapCount->second;
+        for(auto & itMapCount : mapCount){
+            if(itMapCount.second > maxAbsRelev) maxAbsRelev = itMapCount.second;
         }
         std::multimap<float,int> mapRelativeIndex;
-        for(auto itMapCount = mapCount.begin(); itMapCount!=mapCount.end(); ++itMapCount){
-            float tempRelative = (float)itMapCount->second / (float)maxAbsRelev;
-            mapRelativeIndex.insert(std::pair<float, int>(tempRelative,itMapCount->first));
+        for(auto & itMapCount : mapCount){
+            float tempRelative = (float)itMapCount.second / (float)maxAbsRelev;
+            mapRelativeIndex.insert(std::pair<float, int>(tempRelative,itMapCount.first));
         }
 
         std::vector<RelativeIndex> listRelativeIndexRequest;
@@ -71,7 +70,7 @@ std::vector<std::vector<RelativeIndex>>
                 tempVec.clear();
                 tempRank = key_value->first;
               }
-            RelativeIndex relativeIndex;
+            RelativeIndex relativeIndex{};
             relativeIndex.doc_id = key_value->second;
             relativeIndex.rank = key_value->first;
             tempVec.push_back(relativeIndex);
