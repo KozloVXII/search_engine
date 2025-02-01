@@ -54,7 +54,6 @@ std::vector<std::vector<RelativeIndex>>
         }
 
         std::vector<RelativeIndex> listRelativeIndexRequest;
-        std::vector<RelativeIndex> rere;
         std::vector<RelativeIndex> tempVec;
         float tempRank = 10.f;
         int countResponses =1;
@@ -83,14 +82,8 @@ std::vector<std::vector<RelativeIndex>>
                 break;
             }
         }
-
-        int countRequest = 0;
-        for(int i  = rere.size()-1; i>=0 && countRequest<5 ; --i,++countRequest) {
-            listRelativeIndexRequest.push_back(rere.at(i));
-          }
-
-          vecRelativeIndex.push_back(listRelativeIndexRequest);
-          ++itQueries;
+        vecRelativeIndex.push_back(listRelativeIndexRequest);
+        ++itQueries;
     }
     return vecRelativeIndex;
 }

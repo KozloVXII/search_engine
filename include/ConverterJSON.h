@@ -14,6 +14,6 @@ class ConverterJSON {
     std::vector<std::string> GetTextDocuments();
     int GetResponsesLimit();
     std::vector<std::string> GetRequests();
-    void putAnswers(std::vector<std::vector<RelativeIndex>> answers);
+    void putAnswers(const std::vector<std::vector<RelativeIndex>>& answers);
 };
 #endif // CONVERTERJSON_H

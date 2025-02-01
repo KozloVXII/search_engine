@@ -110,7 +110,7 @@ std::vector<std::string> ConverterJSON::GetTextDocuments() {
 }
 
 
-void ConverterJSON::putAnswers(std::vector<std::vector<RelativeIndex>>  answers) {
+void ConverterJSON::putAnswers(const std::vector<std::vector<RelativeIndex>>&  answers) {
     nlohmann::json answersJSON;
     std::string strAnswers = "answers";
     std::string strRequest = "request";
