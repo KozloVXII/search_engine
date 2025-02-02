@@ -4,5 +4,7 @@ Debug
 Binary
 .idea
 cmake-build-debug-mingw
+bin
+
 
 CMakeLists.txt.user

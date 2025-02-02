@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
 
-set (PROJECT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-set (PROJECT_TEST_DIR ${CMAKE_SOURCE_DIR}/test)
-
 add_executable(${PROJECT_NAME}
                                 main.cpp
                                 ConverterJSON.cpp
@@ -11,8 +8,7 @@ add_executable(${PROJECT_NAME}
                                 ${PROJECT_INCLUDE_DIR}/ConverterJSON.h
                                 ${PROJECT_INCLUDE_DIR}/SearchServer.h
                                 ${PROJECT_INCLUDE_DIR}/InvertedIndex.h
-                                ${PROJECT_TEST_DIR}/TestCaseSearchServer.cpp
-                                ${PROJECT_TEST_DIR}/TestInvertedIndexFunctionality.cpp
+                                ${PROJECT_FOLDER_NAME}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
